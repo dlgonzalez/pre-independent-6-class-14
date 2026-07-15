@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Class 14 — Selling the Message</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Work+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF7F0;
+    --paper-2:#F1ECE0;
+    --ink:#1C1B19;
+    --red:#E4402C;
+    --yellow:#F2A900;
+    --teal:#217A73;
+    --line:#1C1B19;
+    --shadow: 4px 4px 0 var(--ink);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    line-height:1.55;
+  }
+  .display{ font-family:'Anton', sans-serif; letter-spacing:0.5px; text-transform:uppercase; }
+  .mono{ font-family:'Space Mono', monospace; }
+
+  /* ===== HEADER / MASTHEAD ===== */
+  .masthead{
+    background:var(--ink);
+    color:var(--paper);
+    padding:28px 24px 34px;
+    border-bottom:6px solid var(--red);
+  }
+  .masthead-top{
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center;
+    max-width:980px; margin:0 auto 18px;
+  }
+  .tag{
+    display:inline-block;
+    font-family:'Space Mono', monospace;
+    font-size:12.5px;
+    font-weight:700;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    padding:5px 12px;
+    border:2px solid var(--paper);
+    border-radius:999px;
+  }
+  .tag.fill{ background:var(--red); border-color:var(--red); color:var(--paper); }
+  .tag.fill.yellow{ background:var(--yellow); border-color:var(--yellow); color:var(--ink); }
+  .masthead h1{
+    max-width:980px; margin:0 auto; font-size:clamp(30px,5vw,52px);
+    line-height:0.98;
+  }
+  .masthead .sub{
+    max-width:980px; margin:10px auto 0; font-size:16px; opacity:0.85; max-width:640px;
+  }
+
+  .objectives-box{
+    max-width:980px; margin:22px auto 0;
+    background:var(--paper); color:var(--ink);
+    border:3px solid var(--ink);
+    box-shadow: var(--shadow);
+    padding:18px 20px;
+  }
+  .objectives-box h2{
+    font-family:'Space Mono',monospace; font-size:13px; letter-spacing:1.5px;
+    text-transform:uppercase; margin:0 0 10px; color:var(--red);
+  }
+  .objectives-box ul{ margin:0; padding-left:20px; }
+  .objectives-box li{ margin-bottom:6px; }
+
+  /* ===== NAV TABS ===== */
+  .tabs-wrap{
+    position:sticky; top:0; z-index:50;
+    background:var(--paper);
+    border-bottom:3px solid var(--ink);
+  }
+  .tabs{
+    max-width:980px; margin:0 auto; display:flex; overflow-x:auto;
+  }
+  .tab-btn{
+    flex:1; min-width:150px;
+    font-family:'Space Mono', monospace; font-size:13px; font-weight:700;
+    text-transform:uppercase; letter-spacing:0.5px;
+    background:var(--paper-2); color:var(--ink);
+    border:none; border-right:3px solid var(--ink);
+    padding:16px 10px; cursor:pointer;
+    transition: background 0.15s ease;
+  }
+  .tab-btn:last-child{ border-right:none; }
+  .tab-btn:hover{ background:#e7e0cf; }
+  .tab-btn.active{ background:var(--ink); color:var(--paper); }
+  .tab-btn.active.c1{ background:var(--red); }
+  .tab-btn.active.c2{ background:var(--teal); }
+  .tab-btn.active.c3{ background:var(--yellow); color:var(--ink); }
+
+  .keytoggle-wrap{
+    max-width:980px; margin:10px auto 0; padding:0 4px 10px;
+    display:flex; justify-content:flex-end;
+  }
+  #keyToggle{
+    font-family:'Space Mono',monospace; font-size:12px; font-weight:700;
+    text-transform:uppercase; letter-spacing:0.5px;
+    background:var(--ink); color:var(--paper);
+    border:2px solid var(--ink); padding:8px 14px; cursor:pointer; border-radius:4px;
+  }
+  #keyToggle.on{ background:var(--yellow); color:var(--ink); }
+
+  main{ max-width:980px; margin:0 auto; padding:26px 18px 90px; }
+  .panel{ display:none; animation: fade 0.25s ease; }
+  .panel.active{ display:block; }
+  @keyframes fade{ from{opacity:0;} to{opacity:1;} }
+
+  section.block{ margin-bottom:38px; }
+  .block h2.section-title{
+    font-size:clamp(22px,3.5vw,30px);
+    display:flex; align-items:center; gap:12px;
+    margin-bottom:6px;
+  }
+  .swatch{ width:16px; height:16px; border-radius:50%; border:2px solid var(--ink); flex:none; }
+  .swatch.c1{ background:var(--red); }
+  .swatch.c2{ background:var(--teal); }
+  .swatch.c3{ background:var(--yellow); }
+  .block .lead{ color:#4a4740; max-width:640px; margin-bottom:20px; }
+
+  /* explanation cards */
+  .explain-grid{ display:grid; gap:14px; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); margin-bottom:22px; }
+  .explain-card{
+    border:2.5px solid var(--ink); background:#fff; padding:16px 16px 14px;
+    border-radius:6px;
+  }
+  .explain-card h3{
+    font-family:'Space Mono',monospace; font-size:13px; text-transform:uppercase;
+    letter-spacing:0.5px; margin:0 0 8px; display:flex; align-items:center; gap:8px;
+  }
+  .chip{
+    display:inline-block; font-family:'Space Mono',monospace; font-size:12px;
+    background:var(--paper-2); border:1.5px solid var(--ink); border-radius:4px;
+    padding:2px 7px; margin:2px 4px 2px 0;
+  }
+  .ad-sample{
+    background:var(--paper-2); border-left:4px solid var(--red);
+    padding:10px 14px; margin-top:10px; font-size:14.5px;
+  }
+  .ad-sample .stamp{
+    font-family:'Space Mono',monospace; font-size:10.5px; font-weight:700;
+    color:var(--red); letter-spacing:1px; display:block; margin-bottom:4px;
+  }
+  .ad-sample.teal{ border-left-color:var(--teal); }
+  .ad-sample.teal .stamp{ color:var(--teal); }
+  mark{ background:var(--yellow); padding:0 3px; border-radius:2px; }
+  mark.red{ background:#f7c9c1; }
+
+  /* exercise components */
+  .exercise{
+    border:2.5px dashed var(--ink); border-radius:6px; padding:18px 18px 16px;
+    margin-bottom:18px; background:#fffdf8;
+  }
+  .exercise h4{
+    font-family:'Space Mono',monospace; font-size:12.5px; text-transform:uppercase;
+    letter-spacing:0.5px; margin:0 0 12px; color:var(--red);
+  }
+  .exercise.c2 h4{ color:var(--teal); }
+  .exercise.c3 h4{ color:#8a6100; }
+  .q-item{ margin-bottom:14px; }
+  .q-item p.qtext{ margin:0 0 6px; }
+  select.answer, input.answer{
+    font-family:'Work Sans',sans-serif; font-size:14.5px;
+    padding:6px 8px; border:2px solid var(--ink); border-radius:4px;
+    background:#fff; min-width:160px;
+  }
+  input.answer{ min-width:180px; }
+  .feedback{ font-family:'Space Mono',monospace; font-size:12.5px; margin-top:4px; display:none; }
+  .feedback.show{ display:inline-block; }
+  .feedback.correct{ color:var(--teal); }
+  .feedback.incorrect{ color:var(--red); }
+  .key-answer{ display:none; font-family:'Space Mono',monospace; font-size:12.5px; color:#8a6100; margin-top:4px; }
+  .key-answer.show{ display:block; }
+
+  button.check-btn{
+    font-family:'Space Mono',monospace; font-weight:700; font-size:12.5px;
+    text-transform:uppercase; letter-spacing:0.5px;
+    background:var(--ink); color:var(--paper); border:none;
+    padding:9px 16px; border-radius:4px; cursor:pointer; margin-top:6px;
+  }
+  button.check-btn:hover{ opacity:0.85; }
+
+  .drag-row{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:8px; }
+  .drag-chip{
+    font-family:'Space Mono',monospace; font-size:13px;
+    border:2px solid var(--ink); border-radius:5px; padding:6px 10px;
+    background:var(--paper-2); cursor:grab; user-select:none;
+  }
+  .drop-zone{
+    border:2px dashed var(--ink); border-radius:5px; min-height:38px;
+    padding:6px; display:flex; align-items:center; gap:6px; flex-wrap:wrap;
+    background:#fff; margin-top:4px;
+  }
+  .drop-zone.dragover{ background:#fff3d6; }
+
+  /* writing section */
+  .prompt-box{
+    border:3px solid var(--ink); background:var(--ink); color:var(--paper);
+    padding:18px 20px; border-radius:6px; margin-bottom:16px;
+  }
+  .prompt-box .label{ font-family:'Space Mono',monospace; font-size:11px; color:var(--yellow); letter-spacing:1px; }
+  .prompt-box p{ margin:8px 0 0; }
+  .student-sample{
+    border:2.5px solid var(--ink); background:#fff; padding:16px 18px;
+    border-radius:6px; margin-bottom:14px; font-size:14.5px;
+  }
+  .student-sample .label{
+    font-family:'Space Mono',monospace; font-size:11px; letter-spacing:1px;
+    color:var(--teal); display:block; margin-bottom:8px;
+  }
+  .steps{ counter-reset:stepnum; list-style:none; padding:0; margin:0; }
+  .steps li{
+    counter-increment:stepnum;
+    position:relative; padding:14px 18px 14px 58px;
+    border:2px solid var(--ink); border-radius:6px; margin-bottom:12px; background:#fff;
+  }
+  .steps li::before{
+    content: counter(stepnum);
+    position:absolute; left:14px; top:50%; transform:translateY(-50%);
+    font-family:'Anton',sans-serif; font-size:22px;
+    width:32px; height:32px; border-radius:50%; background:var(--yellow);
+    border:2px solid var(--ink); display:flex; align-items:center; justify-content:center;
+  }
+  .steps li h4{ margin:0 0 4px; font-size:15.5px; }
+  .steps li p{ margin:0; font-size:14px; color:#4a4740; }
+
+  .scaffold{
+    border:2.5px dashed var(--teal); border-radius:6px; padding:16px 18px; margin:16px 0;
+    background:#effaf8;
+  }
+  .scaffold h4{ font-family:'Space Mono',monospace; font-size:12.5px; text-transform:uppercase; color:var(--teal); margin:0 0 10px;}
+  .scaffold ul{ margin:0; padding-left:18px; }
+  .scaffold li{ margin-bottom:6px; }
+
+  textarea.draft{
+    width:100%; min-height:220px; font-family:'Work Sans',sans-serif; font-size:14.5px;
+    border:2px solid var(--ink); border-radius:6px; padding:14px; resize:vertical;
+  }
+  .wordcount{ font-family:'Space Mono',monospace; font-size:12px; text-align:right; margin-top:4px; color:#6b6659; }
+
+  .ai-box{
+    margin-top:22px; border:3px solid var(--ink); border-radius:8px;
+    background:linear-gradient(135deg, var(--yellow) 0%, #fff 55%);
+    padding:20px 22px; display:flex; flex-wrap:wrap; gap:16px; align-items:center; justify-content:space-between;
+  }
+  .ai-box .ai-text{ max-width:560px; }
+  .ai-box h4{ margin:0 0 6px; font-size:17px; }
+  .ai-box p{ margin:0; font-size:14px; color:#3a3830; }
+  .ai-btn{
+    font-family:'Space Mono',monospace; font-weight:700; font-size:13px; text-transform:uppercase;
+    letter-spacing:0.5px; background:var(--ink); color:var(--paper);
+    padding:12px 20px; border-radius:5px; text-decoration:none; display:inline-block;
+    border:2px solid var(--ink); white-space:nowrap;
+  }
+  .ai-btn:hover{ background:var(--red); border-color:var(--red); }
+
+  footer{
+    text-align:center; padding:20px; font-family:'Space Mono',monospace;
+    font-size:11.5px; color:#8a8578; border-top:2px solid var(--ink);
+  }
+
+  @media (max-width:640px){
+    .tab-btn{ font-size:11px; min-width:110px; padding:13px 6px; }
+    .ai-box{ flex-direction:column; align-items:flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-top">
+    <span class="tag fill">Pre-Independent 4</span>
+    <span class="tag fill yellow">Class 14</span>
+  </div>
+  <h1 class="display">Selling the Message</h1>
+  <p class="sub">Discourse markers, filler language, and persuasive writing — through the lens of advertising.</p>
+
+  <div class="objectives-box">
+    <h2>Objectives</h2>
+    <ul>
+      <li>Identify and use <strong>discourse markers</strong> to organize and connect ideas clearly in speech and writing.</li>
+      <li>Recognize and appropriately use <strong>filler sounds and words</strong> to sound more natural and fluent in spoken English.</li>
+      <li>Analyze how persuasive and evaluative language is used to discuss advertising practices.</li>
+      <li>Plan and write a well-organized <strong>for-and-against paragraph</strong> on a real advertising issue, using discourse markers to link arguments.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab-btn c1 active" data-tab="tab1">1 · Discourse Markers</button>
+    <button class="tab-btn c2" data-tab="tab2">2 · Filler Language</button>
+    <button class="tab-btn c3" data-tab="tab3">3 · Writing Workshop</button>
+  </div>
+</div>
+<div class="keytoggle-wrap">
+  <button id="keyToggle">👁 Show answer key (teacher)</button>
+</div>
+
+<main>
+
+  <!-- ================= TAB 1: DISCOURSE MARKERS ================= -->
+  <div class="panel active" id="tab1">
+    <section class="block">
+      <h2 class="section-title"><span class="swatch c1"></span>What are discourse markers?</h2>
+      <p class="lead">Discourse markers are words and phrases that organize what we say or write. They show the <em>logical relationship</em> between ideas — adding, contrasting, giving examples, sequencing, or concluding. Advertisements use them constantly to build a persuasive argument.</p>
+
+      <div class="explain-grid">
+        <div class="explain-card">
+          <h3>➕ Adding ideas</h3>
+          <span class="chip">in addition</span><span class="chip">moreover</span><span class="chip">furthermore</span><span class="chip">also</span>
+          <div class="ad-sample"><span class="stamp">AD COPY</span>This cream reduces wrinkles. <mark>In addition</mark>, it protects your skin from sun damage.</div>
+        </div>
+        <div class="explain-card">
+          <h3>⚖️ Contrasting</h3>
+          <span class="chip">however</span><span class="chip">on the other hand</span><span class="chip">although</span><span class="chip">even so</span>
+          <div class="ad-sample"><span class="stamp">AD COPY</span>The photo looks flawless. <mark>However</mark>, it was heavily edited before publication.</div>
+        </div>
+        <div class="explain-card">
+          <h3>💡 Giving examples</h3>
+          <span class="chip">for example</span><span class="chip">for instance</span><span class="chip">such as</span><span class="chip">like</span>
+          <div class="ad-sample"><span class="stamp">AD COPY</span>Some brands, <mark>such as</mark> beauty and fashion companies, edit almost every image they publish.</div>
+        </div>
+        <div class="explain-card">
+          <h3>🔢 Sequencing</h3>
+          <span class="chip">firstly</span><span class="chip">then</span><span class="chip">after that</span><span class="chip">finally</span>
+          <div class="ad-sample"><span class="stamp">AD COPY</span><mark>Firstly</mark>, the company chooses a model. <mark>Then</mark>, they take the photos. <mark>Finally</mark>, they edit the image digitally.</div>
+        </div>
+        <div class="explain-card">
+          <h3>🎯 Concluding / result</h3>
+          <span class="chip">as a result</span><span class="chip">in conclusion</span><span class="chip">overall</span><span class="chip">therefore</span>
+          <div class="ad-sample"><span class="stamp">AD COPY</span><mark>As a result</mark>, many young people feel pressure to look like the models in these ads.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2 class="section-title"><span class="swatch c1"></span>Practice</h2>
+
+      <div class="exercise" id="ex1">
+        <h4>Exercise 1 · Choose the correct discourse marker</h4>
+        <div class="q-item" data-answer="However">
+          <p class="qtext">1. The advert claims the product works instantly. ______, no scientific study supports this.</p>
+          <select class="answer">
+            <option value="">-- choose --</option>
+            <option>However</option>
+            <option>For example</option>
+            <option>Firstly</option>
+          </select>
+          <span class="feedback"></span>
+          <div class="key-answer">Answer: However</div>
+        </div>
+        <div class="q-item" data-answer="such as">
+          <p class="qtext">2. Some countries, ______ France, have banned photoshopped images in certain ad campaigns.</p>
+          <select class="answer">
+            <option value="">-- choose --</option>
+            <option>such as</option>
+            <option>as a result</option>
+            <option>on the other hand</option>
+          </select>
+          <span class="feedback"></span>
+          <div class="key-answer">Answer: such as</div>
+        </div>
+        <div class="q-item" data-answer="In addition">
+          <p class="qtext">3. The image was retouched to remove blemishes. ______, the model's waist was made narrower.</p>
+          <select class="answer">
+            <option value="">-- choose --</option>
+            <option>In addition</option>
+            <option>Although</option>
+            <option>In conclusion</option>
+          </select>
+          <span class="feedback"></span>
+          <div class="key-answer">Answer: In addition</div>
+        </div>
+        <div class="q-item" data-answer="As a result">
+          <p class="qtext">4. Teenagers compare themselves to edited images online. ______, some develop unhealthy body image issues.</p>
+          <select class="answer">
+            <option value="">-- choose --</option>
+            <option>As a result</option>
+            <option>For instance</option>
+            <option>Then</option>
+          </select>
+          <span class="feedback"></span>
+          <div class="key-answer">Answer: As a result</div>
+        </div>
+        <button class="check-btn" onclick="checkExercise('ex1')">Check answers</button>
+      </div>
+
+      <div class="exercise" id="ex2">
+        <h4>Exercise 2 · Match the marker to its function</h4>
+        <div class="q-item" data-answer="Sequencing">
+          <p class="qtext">1. "Firstly... then... finally..."</p>
+          <select class="answer">
+            <option value="">-- choose function --</option>
+            <option>Sequencing</option>
+            <option>Contrasting</option>
+            <option>Concluding</option>
+            <option>Giving an example</option>
+          </select>
+          <span class="feedback"></span>
+          <div class="key-answer">Answer: Sequencing</div>
+        </div>
+        <div class="q-item" data-answer="Contrasting">
+          <p class="qtext">2. "On the other hand..."</p>
+          <select class="answer">
+            <option value="">-- choose function --</option>
+            <option>Sequencing</option>
+            <option>Contrasting</option>
+            <option>Concluding</option>
+            <option>Giving an example</option>
+          </select>
+          <span class="feedback"></span>
+          <div class="key-answer">Answer: Contrasting</div>
+        </div>
+        <div class="q-item" data-answer="Giving an example">
+          <p class="qtext">3. "For instance..."</p>
+          <select class="answer">
+            <option value="">-- choose function --</option>
+            <option>Sequencing</option>
+            <option>Contrasting</option>
+            <option>Concluding</option>
+            <option>Giving an example</option>
+          </select>
+          <span class="feedback"></span>
+          <div class="key-answer">Answer: Giving an example</div>
+        </div>
+        <div class="q-item" data-answer="Concluding">
+          <p class="qtext">4. "Overall..."</p>
+          <select class="answer">
+            <option value="">-- choose function --</option>
+            <option>Sequencing</option>
+            <option>Contrasting</option>
+            <option>Concluding</option>
+            <option>Giving an example</option>
+          </select>
+          <span class="feedback"></span>
+          <div class="key-answer">Answer: Concluding</div>
+        </div>
+        <button class="check-btn" onclick="checkExercise('ex2')">Check answers</button>
+      </div>
+
+      <div class="exercise" id="ex3">
+        <h4>Exercise 3 · Complete the sentences with your own words</h4>
+        <p class="lead" style="margin-bottom:12px;">Use a discourse marker from this lesson and finish the idea about advertising.</p>
+        <div class="q-item" data-answer="open">
+          <p class="qtext">1. Photoshopped ads can look extremely convincing. However, ____________________________</p>
+          <input type="text" class="answer" placeholder="type your ending here">
+          <span class="feedback"></span>
+          <div class="key-answer">Sample answer: they don't show reality / they can mislead consumers.</div>
+        </div>
+        <div class="q-item" data-answer="open">
+          <p class="qtext">2. Many beauty brands edit their advertising photos. As a result, ____________________________</p>
+          <input type="text" class="answer" placeholder="type your ending here">
+          <span class="feedback"></span>
+          <div class="key-answer">Sample answer: customers develop unrealistic expectations about their appearance.</div>
+        </div>
+        <button class="check-btn" onclick="checkOpenExercise('ex3')">Check my writing</button>
+      </div>
+
+      <div class="exercise" id="ex9">
+        <h4>Exercise 4 · Complete the paragraph</h4>
+        <p class="lead" style="margin-bottom:12px;">Fill each gap with the best marker from the word bank. Each one is used once.</p>
+        <div class="ad-sample" style="margin-bottom:14px;">
+          <span class="stamp">WORD BANK</span>
+          <span class="chip">However</span><span class="chip">For example</span><span class="chip">In addition</span><span class="chip">As a result</span><span class="chip">Finally</span>
+        </div>
+        <div class="q-item" data-answer="For example">
+          <p class="qtext">1. Many advertisements are digitally altered before publication. ______, a magazine cover might combine features from three different photos of the same model.</p>
+          <select class="answer">
+            <option value="">-- choose --</option>
+            <option>However</option>
+            <option>For example</option>
+            <option>In addition</option>
+            <option>As a result</option>
+            <option>Finally</option>
+          </select>
+          <span class="feedback"></span>
+          <div class="key-answer">Answer: For example</div>
+        </div>
+        <div class="q-item" data-answer="In addition">
+          <p class="qtext">2. Skin tone and body shape are often changed. ______, wrinkles and blemishes are usually removed completely.</p>
+          <select class="answer">
+            <option value="">-- choose --</option>
+            <option>However</option>
+            <option>For example</option>
+            <option>In addition</option>
+            <option>As a result</option>
+            <option>Finally</option>
+          </select>
+          <span class="feedback"></span>
+          <div class="key-answer">Answer: In addition</div>
+        </div>
+        <div class="q-item" data-answer="However">
+          <p class="qtext">3. Advertisers claim this editing is simply artistic. ______, critics argue that it misleads consumers about real products.</p>
+          <select class="answer">
+            <option value="">-- choose --</option>
+            <option>However</option>
+            <option>For example</option>
+            <option>In addition</option>
+            <option>As a result</option>
+            <option>Finally</option>
+          </select>
+          <span class="feedback"></span>
+          <div class="key-answer">Answer: However</div>
+        </div>
+        <div class="q-item" data-answer="As a result">
+          <p class="qtext">4. Studies show a link between edited images and low self-esteem in teenagers. ______, several governments are now considering new regulations.</p>
+          <select class="answer">
+            <option value="">-- choose --</option>
+            <option>However</option>
+            <option>For example</option>
+            <option>In addition</option>
+            <option>As a result</option>
+            <option>Finally</option>
+          </select>
+          <span class="feedback"></span>
+          <div class="key-answer">Answer: As a result</div>
+        </div>
+        <div class="q-item" data-answer="Finally">
+          <p class="qtext">5. ______, some countries now require a label on any image that has been digitally altered.</p>
+          <select class="answer">
+            <option value="">-- choose --</option>
+            <option>However</option>
+            <option>For example</option>
+            <option>In addition</option>
+            <option>As a result</option>
+            <option>Finally</option>
+          </select>
+          <span class="feedback"></span>
+          <div class="key-answer">Answer: Finally</div>
+        </div>
+        <button class="check-btn" onclick="checkExercise('ex9')">Check answers</button>
+      </div>
+
+      <div class="exercise" id="ex10">
+        <h4>Exercise 5 · Spot the function in context</h4>
+        <p class="lead" style="margin-bottom:12px;">Read each mini-text and identify the function of the underlined marker.</p>
+        <div class="q-item" data-answer="Contrasting">
+          <p class="qtext">1. "The billboard looks stunning. <u>Although</u>, the woman in the photo doesn't actually look like that in real life." — What function does the underlined word have?</p>
+          <select class="answer">
+            <option value="">-- choose --</option>
+            <option>Sequencing</option>
+            <option>Contrasting</option>
+            <option>Concluding</option>
+            <option>Giving an example</option>
+          </select>
+          <span class="feedback"></span>
+          <div class="key-answer">Answer: Contrasting</div>
+        </div>
+        <div class="q-item" data-answer="Concluding">
+          <p class="qtext">2. "...Consumers are being shown an unrealistic ideal. <u>Overall</u>, this raises serious ethical questions for the advertising industry." — function?</p>
+          <select class="answer">
+            <option value="">-- choose --</option>
+            <option>Sequencing</option>
+            <option>Contrasting</option>
+            <option>Concluding</option>
+            <option>Giving an example</option>
+          </select>
+          <span class="feedback"></span>
+          <div class="key-answer">Answer: Concluding</div>
+        </div>
+        <div class="q-item" data-answer="Sequencing">
+          <p class="qtext">3. "To edit a photo for an ad, editors <u>first</u> adjust the lighting and background, and <u>then</u> retouch the model's skin." — function?</p>
+          <select class="answer">
+            <option value="">-- choose --</option>
+            <option>Sequencing</option>
+            <option>Contrasting</option>
+            <option>Concluding</option>
+            <option>Giving an example</option>
+          </select>
+          <span class="feedback"></span>
+          <div class="key-answer">Answer: Sequencing</div>
+        </div>
+        <button class="check-btn" onclick="checkExercise('ex10')">Check answers</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- ================= TAB 2: FILLER LANGUAGE ================= -->
+  <div class="panel" id="tab2">
+    <section class="block">
+      <h2 class="section-title"><span class="swatch c2"></span>What are filler sounds and words?</h2>
+      <p class="lead">Fillers don't add logical meaning like discourse markers do. Instead, they help a speaker <em>buy thinking time</em>, sound more natural, or soften what they're about to say. Native speakers use them constantly — including in ad-agency pitch meetings!</p>
+
+      <div class="explain-grid">
+        <div class="explain-card">
+          <h3>🤔 Thinking time</h3>
+          <span class="chip">um</span><span class="chip">uh</span><span class="chip">well</span><span class="chip">let me think</span>
+          <div class="ad-sample teal"><span class="stamp">PITCH MEETING</span>"So, <mark class="red">um</mark>, we were thinking the campaign could focus on... <mark class="red">uh</mark>, sustainability?"</div>
+        </div>
+        <div class="explain-card">
+          <h3>🗣️ Keeping the floor / connecting</h3>
+          <span class="chip">you know</span><span class="chip">I mean</span><span class="chip">like</span><span class="chip">so</span>
+          <div class="ad-sample teal"><span class="stamp">PITCH MEETING</span>"It's, <mark class="red">you know</mark>, a bold idea, but <mark class="red">I mean</mark>, it could really work."</div>
+        </div>
+        <div class="explain-card">
+          <h3>✅ Softening / reacting</h3>
+          <span class="chip">actually</span><span class="chip">right</span><span class="chip">basically</span><span class="chip">kind of</span>
+          <div class="ad-sample teal"><span class="stamp">PITCH MEETING</span>"<mark class="red">Actually</mark>, the client wants something <mark class="red">kind of</mark> edgier."</div>
+        </div>
+      </div>
+
+      <div class="ad-sample" style="margin-top:4px;">
+        <span class="stamp">GOOD TO KNOW</span>Fillers are natural and useful in <strong>speaking</strong> — but they should almost never appear in <strong>formal writing</strong>, like the for-and-against paragraph you'll write in this lesson.
+      </div>
+    </section>
+
+    <section class="block">
+      <h2 class="section-title"><span class="swatch c2"></span>Practice</h2>
+
+      <div class="exercise c2" id="ex4">
+        <h4>Exercise 6 · Find the fillers</h4>
+        <p class="lead" style="margin-bottom:12px;">Read the transcript from an ad agency brainstorm. How many filler words can you count? Type the number.</p>
+        <div class="ad-sample teal" style="margin-bottom:14px;">
+          <span class="stamp">TRANSCRIPT</span>
+          "Okay, so, um, I think the ad should show, like, real people. Not models. You know, actual customers. I mean, it's more honest, right? And, uh, it's cheaper too, basically."
+        </div>
+        <div class="q-item" data-answer="7">
+          <p class="qtext">How many filler words/sounds are in the transcript above?</p>
+          <input type="text" class="answer" placeholder="a number" style="min-width:80px;">
+          <span class="feedback"></span>
+          <div class="key-answer">Answer: 7 (so, um, like, You know, I mean, right, uh — "basically" could make 8 depending on how students count)</div>
+        </div>
+        <button class="check-btn" onclick="checkExercise('ex4')">Check answer</button>
+      </div>
+
+      <div class="exercise c2" id="ex5">
+        <h4>Exercise 7 · Choose a natural-sounding filler</h4>
+        <div class="q-item" data-answer="I mean">
+          <p class="qtext">1. "The client hated the first draft. ______, we had to start again from scratch."</p>
+          <select class="answer">
+            <option value="">-- choose --</option>
+            <option>I mean</option>
+            <option>In conclusion</option>
+            <option>For example</option>
+          </select>
+          <span class="feedback"></span>
+          <div class="key-answer">Answer: I mean</div>
+        </div>
+        <div class="q-item" data-answer="you know">
+          <p class="qtext">2. "It's, ______, a really creative concept, honestly."</p>
+          <select class="answer">
+            <option value="">-- choose --</option>
+            <option>you know</option>
+            <option>furthermore</option>
+            <option>as a result</option>
+          </select>
+          <span class="feedback"></span>
+          <div class="key-answer">Answer: you know</div>
+        </div>
+        <button class="check-btn" onclick="checkExercise('ex5')">Check answers</button>
+      </div>
+
+      <div class="exercise c2" id="ex11">
+        <h4>Exercise 8 · Filler or discourse marker?</h4>
+        <p class="lead" style="margin-bottom:12px;">Discourse markers organize logical ideas; fillers just manage the flow of speech. Sort each word/phrase.</p>
+        <div class="q-item" data-answer="Filler">
+          <p class="qtext">1. "you know"</p>
+          <select class="answer">
+            <option value="">-- choose --</option>
+            <option>Filler</option>
+            <option>Discourse marker</option>
+          </select>
+          <span class="feedback"></span>
+          <div class="key-answer">Answer: Filler</div>
+        </div>
+        <div class="q-item" data-answer="Discourse marker">
+          <p class="qtext">2. "however"</p>
+          <select class="answer">
+            <option value="">-- choose --</option>
+            <option>Filler</option>
+            <option>Discourse marker</option>
+          </select>
+          <span class="feedback"></span>
+          <div class="key-answer">Answer: Discourse marker</div>
+        </div>
+        <div class="q-item" data-answer="Filler">
+          <p class="qtext">3. "um"</p>
+          <select class="answer">
+            <option value="">-- choose --</option>
+            <option>Filler</option>
+            <option>Discourse marker</option>
+          </select>
+          <span class="feedback"></span>
+          <div class="key-answer">Answer: Filler</div>
+        </div>
+        <div class="q-item" data-answer="Discourse marker">
+          <p class="qtext">4. "as a result"</p>
+          <select class="answer">
+            <option value="">-- choose --</option>
+            <option>Filler</option>
+            <option>Discourse marker</option>
+          </select>
+          <span class="feedback"></span>
+          <div class="key-answer">Answer: Discourse marker</div>
+        </div>
+        <div class="q-item" data-answer="Filler">
+          <p class="qtext">5. "I mean"</p>
+          <select class="answer">
+            <option value="">-- choose --</option>
+            <option>Filler</option>
+            <option>Discourse marker</option>
+          </select>
+          <span class="feedback"></span>
+          <div class="key-answer">Answer: Filler</div>
+        </div>
+        <button class="check-btn" onclick="checkExercise('ex11')">Check answers</button>
+      </div>
+
+      <div class="exercise c2" id="ex12">
+        <h4>Exercise 9 · Complete the pitch meeting dialogue</h4>
+        <p class="lead" style="margin-bottom:12px;">Choose the most natural-sounding filler for each gap in this ad-agency conversation.</p>
+        <div class="q-item" data-answer="well">
+          <p class="qtext">1. "______, I'm not sure the client will like the color scheme."</p>
+          <select class="answer">
+            <option value="">-- choose --</option>
+            <option>well</option>
+            <option>in addition</option>
+            <option>overall</option>
+          </select>
+          <span class="feedback"></span>
+          <div class="key-answer">Answer: well</div>
+        </div>
+        <div class="q-item" data-answer="basically">
+          <p class="qtext">2. "So, ______, the idea is to make the campaign feel more personal."</p>
+          <select class="answer">
+            <option value="">-- choose --</option>
+            <option>basically</option>
+            <option>as a result</option>
+            <option>therefore</option>
+          </select>
+          <span class="feedback"></span>
+          <div class="key-answer">Answer: basically</div>
+        </div>
+        <div class="q-item" data-answer="right">
+          <p class="qtext">3. "We want people to remember the brand, ______? That's the whole point."</p>
+          <select class="answer">
+            <option value="">-- choose --</option>
+            <option>right</option>
+            <option>however</option>
+            <option>for example</option>
+          </select>
+          <span class="feedback"></span>
+          <div class="key-answer">Answer: right</div>
+        </div>
+        <button class="check-btn" onclick="checkExercise('ex12')">Check answers</button>
+      </div>
+
+      <div class="exercise c2" id="ex13">
+        <h4>Exercise 10 · True or false?</h4>
+        <div class="q-item" data-answer="False">
+          <p class="qtext">1. Filler words should be used often in formal academic writing.</p>
+          <select class="answer">
+            <option value="">-- choose --</option>
+            <option>True</option>
+            <option>False</option>
+          </select>
+          <span class="feedback"></span>
+          <div class="key-answer">Answer: False</div>
+        </div>
+        <div class="q-item" data-answer="True">
+          <p class="qtext">2. Fillers can give a speaker extra time to think while talking.</p>
+          <select class="answer">
+            <option value="">-- choose --</option>
+            <option>True</option>
+            <option>False</option>
+          </select>
+          <span class="feedback"></span>
+          <div class="key-answer">Answer: True</div>
+        </div>
+        <div class="q-item" data-answer="False">
+          <p class="qtext">3. Discourse markers and fillers serve exactly the same purpose.</p>
+          <select class="answer">
+            <option value="">-- choose --</option>
+            <option>True</option>
+            <option>False</option>
+          </select>
+          <span class="feedback"></span>
+          <div class="key-answer">Answer: False</div>
+        </div>
+        <div class="q-item" data-answer="True">
+          <p class="qtext">4. Native speakers often use fillers naturally in everyday conversation.</p>
+          <select class="answer">
+            <option value="">-- choose --</option>
+            <option>True</option>
+            <option>False</option>
+          </select>
+          <span class="feedback"></span>
+          <div class="key-answer">Answer: True</div>
+        </div>
+        <button class="check-btn" onclick="checkExercise('ex13')">Check answers</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- ================= TAB 3: WRITING WORKSHOP ================= -->
+  <div class="panel" id="tab3">
+    <section class="block">
+      <h2 class="section-title"><span class="swatch c3"></span>A · Read and analyze</h2>
+      <p class="lead">Read the essay prompt and one student's answer. Then decide whether the student has really answered the question.</p>
+
+      <div class="prompt-box">
+        <span class="label">ESSAY PROMPT</span>
+        <p>"Photoshopped images should be banned in ads." Discuss the arguments for and against this statement.</p>
+      </div>
+
+      <div class="student-sample">
+        <span class="label">STUDENT'S ANSWER</span>
+        In recent years, some advertising companies have been criticized for using photoshopped images in their advertising campaigns. For example, it's common for the pictures in ads for some products — beauty products, for instance — to be edited to make the people in the ads appear perfect. The ad companies use computer technology to change the shape of people's bodies. Due to this trend, young people can have health problems because they try to look like the people in the ads. As a result, photoshopping ads has already been banned in some countries. In France, for example, photoshopped images are not shown in magazines or on billboards. I agree that it should now be banned in the rest of the world, too.
+      </div>
+
+      <div class="exercise c3" id="ex6">
+        <h4>Discussion question</h4>
+        <div class="q-item" data-answer="No">
+          <p class="qtext">Has the student answered the question? (The prompt asks for arguments <strong>for and against</strong>.)</p>
+          <select class="answer">
+            <option value="">-- choose --</option>
+            <option>Yes</option>
+            <option>No</option>
+          </select>
+          <span class="feedback"></span>
+          <div class="key-answer">Answer: No — the student only gives arguments <em>for</em> the ban. There are no arguments <em>against</em> it (for example: banning photoshop could restrict artistic/commercial freedom, be hard to enforce, or reduce advertising quality). A for-and-against paragraph must present both sides before giving an opinion.</div>
+        </div>
+        <button class="check-btn" onclick="checkExercise('ex6')">Check answer</button>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2 class="section-title"><span class="swatch c3"></span>B · Learn: how to write for-and-against arguments</h2>
+      <p class="lead">A for-and-against paragraph needs a clear, balanced structure. Study the pattern below before you write your own.</p>
+
+      <div class="explain-grid">
+        <div class="explain-card">
+          <h3>🧱 The structure</h3>
+          <p style="margin:0; font-size:14px;">1. Introduce the topic neutrally<br>2. Arguments <strong>for</strong><br>3. Arguments <strong>against</strong><br>4. Your opinion / conclusion</p>
+        </div>
+        <div class="explain-card">
+          <h3>🗣️ Introducing arguments FOR</h3>
+          <span class="chip">Those in favor argue that...</span><span class="chip">Supporters claim that...</span><span class="chip">One argument for... is that...</span>
+        </div>
+        <div class="explain-card">
+          <h3>🗣️ Introducing arguments AGAINST</h3>
+          <span class="chip">On the other hand...</span><span class="chip">Opponents believe that...</span><span class="chip">However, some people feel that...</span>
+        </div>
+        <div class="explain-card">
+          <h3>➕ Adding a second point</h3>
+          <span class="chip">In addition...</span><span class="chip">A further point is that...</span><span class="chip">What's more...</span>
+        </div>
+        <div class="explain-card">
+          <h3>🎯 Giving your opinion</h3>
+          <span class="chip">Overall, I believe that...</span><span class="chip">In conclusion...</span><span class="chip">Taking everything into account...</span>
+        </div>
+      </div>
+
+      <div class="ad-sample teal" style="margin-bottom:20px;">
+        <span class="stamp">MODEL EXAMPLE</span>
+        Nowadays, many advertising companies edit their photos before publishing them. <mark>Those in favor</mark> of this practice argue that advertisements are meant to look attractive, not realistic — after all, they exist to sell a product. <mark>In addition</mark>, some argue that photo editing is simply a form of digital art. <mark>On the other hand</mark>, opponents believe that photoshopped ads create unrealistic beauty standards. <mark>What's more</mark>, this can seriously affect the self-esteem of young people. <mark>Overall</mark>, I believe advertisers should be more transparent about the images they use.
+      </div>
+
+      <div class="exercise c3" id="ex7">
+        <h4>Exercise 11 · For or against?</h4>
+        <p class="lead" style="margin-bottom:12px;">Decide whether each argument about photoshopping ads is FOR banning it or AGAINST banning it.</p>
+        <div class="q-item" data-answer="For">
+          <p class="qtext">1. "Editing photos gives young people an impossible standard of beauty to live up to."</p>
+          <select class="answer">
+            <option value="">-- choose --</option>
+            <option>For</option>
+            <option>Against</option>
+          </select>
+          <span class="feedback"></span>
+          <div class="key-answer">Answer: For (banning it)</div>
+        </div>
+        <div class="q-item" data-answer="Against">
+          <p class="qtext">2. "Advertising has always used idealized images — banning photoshop won't change that."</p>
+          <select class="answer">
+            <option value="">-- choose --</option>
+            <option>For</option>
+            <option>Against</option>
+          </select>
+          <span class="feedback"></span>
+          <div class="key-answer">Answer: Against (banning it)</div>
+        </div>
+        <div class="q-item" data-answer="Against">
+          <p class="qtext">3. "A ban would be extremely difficult for governments to enforce."</p>
+          <select class="answer">
+            <option value="">-- choose --</option>
+            <option>For</option>
+            <option>Against</option>
+          </select>
+          <span class="feedback"></span>
+          <div class="key-answer">Answer: Against (banning it)</div>
+        </div>
+        <div class="q-item" data-answer="For">
+          <p class="qtext">4. "Consumers have a right to see honest, unedited representations of products."</p>
+          <select class="answer">
+            <option value="">-- choose --</option>
+            <option>For</option>
+            <option>Against</option>
+          </select>
+          <span class="feedback"></span>
+          <div class="key-answer">Answer: For (banning it)</div>
+        </div>
+        <button class="check-btn" onclick="checkExercise('ex7')">Check answers</button>
+      </div>
+
+      <div class="exercise c3" id="ex8">
+        <h4>Exercise 12 · Complete the argument</h4>
+        <p class="lead" style="margin-bottom:12px;">Use the sentence starter to write your own argument sentence.</p>
+        <div class="q-item" data-answer="open">
+          <p class="qtext">1. Those in favor of banning photoshopped ads argue that ____________________________</p>
+          <input type="text" class="answer" placeholder="finish the sentence">
+          <span class="feedback"></span>
+          <div class="key-answer">Sample answer: ...it protects consumers from being misled about a product's real appearance.</div>
+        </div>
+        <div class="q-item" data-answer="open">
+          <p class="qtext">2. On the other hand, opponents believe that ____________________________</p>
+          <input type="text" class="answer" placeholder="finish the sentence">
+          <span class="feedback"></span>
+          <div class="key-answer">Sample answer: ...advertising has always been about presenting an idealized image, not reality.</div>
+        </div>
+        <button class="check-btn" onclick="checkOpenExercise('ex8')">Check my writing</button>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2 class="section-title"><span class="swatch c3"></span>C · Your turn: write a for-and-against paragraph</h2>
+      <p class="lead"><strong>Task:</strong> Write a for-and-against paragraph about photoshopping in advertisements. Unlike the student sample, make sure you present <strong>both</strong> sides before giving your own opinion.</p>
+
+      <ol class="steps">
+        <li>
+          <h4>Analyze the prompt</h4>
+          <p>Underline the key task words. This prompt asks you to discuss arguments <strong>for and against</strong> — not just to argue one side.</p>
+        </li>
+        <li>
+          <h4>Brainstorm both sides</h4>
+          <p>List at least 2 arguments <em>for</em> banning photoshopped ads and 2 arguments <em>against</em> banning them.</p>
+        </li>
+        <li>
+          <h4>Organize your ideas</h4>
+          <p>Plan your paragraph: introduction → arguments for → arguments against → your conclusion/opinion.</p>
+        </li>
+        <li>
+          <h4>Draft your paragraph</h4>
+          <p>Write your first version. Use discourse markers from Part 1 (however, in addition, for example, as a result...) to connect your ideas clearly.</p>
+        </li>
+        <li>
+          <h4>Revise and check</h4>
+          <p>Reread your paragraph. Remove any filler words (um, like, you know) — these belong in speech, not formal writing. Check that both sides are represented.</p>
+        </li>
+      </ol>
+
+      <div class="scaffold">
+        <h4>Sentence starters you can use</h4>
+        <ul>
+          <li><strong>Introduction:</strong> "Nowadays, it is common for advertising companies to..."</li>
+          <li><strong>Arguments for the ban:</strong> "Those in favor of banning photoshopped ads argue that... For example,... In addition,..."</li>
+          <li><strong>Arguments against the ban:</strong> "On the other hand, some people believe that... For instance,..."</li>
+          <li><strong>Conclusion/opinion:</strong> "Overall, I believe that... / In conclusion,..."</li>
+        </ul>
+      </div>
+
+      <textarea class="draft" id="draftArea" placeholder="Write your for-and-against paragraph here..."></textarea>
+      <div class="wordcount" id="wordcount">0 words</div>
+
+      <div class="ai-box">
+        <div class="ai-text">
+          <h4>🤖 Get feedback from your AI writing helper</h4>
+          <p>Paste your paragraph into the AI helper (a custom Google Gem) to get feedback on organization, discourse markers, and grammar before you submit your final version.</p>
+        </div>
+        <a class="ai-btn" href="https://gemini.google.com/gem/1-FCcXK6hoCob-3D-mCNc9z2KFCYv-lxJ?usp=sharing" target="_blank" rel="noopener">Open AI Helper →</a>
+      </div>
+    </section>
+  </div>
+
+</main>
+
+<footer>Colombo Americano · Pre-Independent 4 · Class 14</footer>
+
+<script>
+  // Tab switching
+  document.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  // Teacher answer key toggle
+  let keyOn = false;
+  document.getElementById('keyToggle').addEventListener('click', ()=>{
+    keyOn = !keyOn;
+    document.querySelectorAll('.key-answer').forEach(el=>el.classList.toggle('show', keyOn));
+    const btn = document.getElementById('keyToggle');
+    btn.classList.toggle('on', keyOn);
+    btn.textContent = keyOn ? '🙈 Hide answer key (teacher)' : '👁 Show answer key (teacher)';
+  });
+
+  // Check exercise (select / exact-match input)
+  function checkExercise(exId){
+    const ex = document.getElementById(exId);
+    ex.querySelectorAll('.q-item').forEach(q=>{
+      const correct = q.dataset.answer.trim().toLowerCase();
+      const field = q.querySelector('.answer');
+      const fb = q.querySelector('.feedback');
+      const given = (field.value || '').trim().toLowerCase();
+      fb.classList.add('show');
+      if(given === '' ){
+        fb.textContent = '⚠ Please answer.';
+        fb.className = 'feedback show incorrect';
+      } else if(given === correct){
+        fb.textContent = '✓ Correct!';
+        fb.className = 'feedback show correct';
+      } else {
+        fb.textContent = '✗ Try again.';
+        fb.className = 'feedback show incorrect';
+      }
+    });
+  }
+
+  // Check open-ended exercise (just marks as submitted, encourages teacher review)
+  function checkOpenExercise(exId){
+    const ex = document.getElementById(exId);
+    ex.querySelectorAll('.q-item').forEach(q=>{
+      const field = q.querySelector('.answer');
+      const fb = q.querySelector('.feedback');
+      fb.classList.add('show');
+      if((field.value||'').trim() === ''){
+        fb.textContent = '⚠ Please write an answer.';
+        fb.className = 'feedback show incorrect';
+      } else {
+        fb.textContent = '✓ Submitted — compare with the sample answer.';
+        fb.className = 'feedback show correct';
+      }
+    });
+  }
+
+  // Word count for the draft
+  const draft = document.getElementById('draftArea');
+  const wc = document.getElementById('wordcount');
+  draft.addEventListener('input', ()=>{
+    const words = draft.value.trim().split(/\s+/).filter(w=>w.length>0);
+    wc.textContent = (draft.value.trim()==='' ? 0 : words.length) + ' words';
+  });
+</script>
+
+</body>
+</html>
